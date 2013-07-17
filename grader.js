@@ -33,10 +33,12 @@ var result = {};
 
 var assertFileExists = function(infile) {
     var instr = infile.toString();
+    console.log("Checking file " + instr);
     if(!fs.existsSync(instr)) {
         console.log("File does not exist, exiting.");
         process.exit(1);
     }
+    return instr;
 }
 
 var cheerioHtmlFile = function(htmlFile) {
@@ -81,7 +83,7 @@ var clone = function(fn) {
 
 if(require.main == module) {
     program
-        .option('-c, --checks', 'Path to checks.json', clone(assertFileExists), CHECKSFILE_DEFAULT)
+        .option('-c, --checks <checks_file>', 'Path to checks.json', assertFileExists, CHECKSFILE_DEFAULT)
         //.option('-f, --file', 'Path to index.html', clone(assertFileExists), HTMLFILE_DEFAULT)
         .option('-u, --url', 'URL Path', URL_DEFAULT)
         .parse(process.argv);
